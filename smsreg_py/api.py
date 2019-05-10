@@ -64,10 +64,8 @@ class SmsRegClient(Client):
     def set_operation(self, tzid: str, otype: str = 'ok') -> dict:
         if otype == 'ok':
             method = 'setOperationOk'
-        elif otype == 'revise':
-            method = 'setOperationRevise'
-        elif otype == 'over':
-            method = 'setOperationOver'
+        elif otype == 'used':
+            method = 'setOperationUsed'
         else:
             return {}
 
