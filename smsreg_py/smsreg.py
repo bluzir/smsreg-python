@@ -128,6 +128,35 @@ class SmsReg(SmsRegClient):
         logging.debug('Parsed {} service names'.format(len(services_list)))
 
 
-
-
-
+class ServiceConstants:
+    AOL = 'aol'
+    GMAIL = 'gmail'
+    FACEBOOK = 'facebook'
+    MAILRU = 'mailru'
+    VK = 'vk'
+    CLASSMATES = 'classmates'
+    TWITTER = 'twitter'
+    MAMBA = 'mamba'
+    UBER = 'uber'
+    TELEGRAM = 'telegram'
+    BADOO = 'badoo'
+    DRUGVOKRUG = 'drugvokrug'
+    AVITO = 'avito'
+    OLX = 'olx'
+    STEAM = 'steam'
+    FOTOSTRANA = 'fotostrana'
+    MICROSOFT = 'microsoft'
+    VIBER = 'viber'
+    WHATSAPP = 'whatsapp'
+    WECHAT = 'wechat'
+    SEOSPRINT = 'seosprint'
+    INSTAGRAM = 'instagram'
+    YAHOO = 'yahoo'
+    LINEME = 'lineme'
+    KAKAOTALK = 'kakaotalk'
+    MEETME = 'meetme'
+    TINDER = 'tinder'
+    NIMSES = 'nimses'
+    YOULA = 'youla'
+    _5KA = '5ka'
+    OTHER = 'other'

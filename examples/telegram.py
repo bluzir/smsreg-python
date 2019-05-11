@@ -1,10 +1,10 @@
 import logging
 
-from smsreg_py.smsreg import SmsReg
+from smsreg_py.smsreg import SmsReg, ServiceConstants
 
 
 def main():
-    sms_client.request_number('telegram')
+    sms_client.request_number(ServiceConstants.TELEGRAM)
     number = sms_client.get_number_from_transaction()
     print(f'Your number is: {number}')
     input('Enter anything after entering number to telegram')
