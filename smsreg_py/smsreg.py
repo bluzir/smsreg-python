@@ -19,16 +19,28 @@ class SmsReg(SmsRegClient):
         self.tz_id = None
 
     def request_number(self, service) -> bool:
+        """
+        Method for requesting phone number for specific service
+        :param service: str – name of service from self.services
+        :return: bool – True if API-response is OK, else False
+        ID of successful transaction is stored in self.tz_id
+        """
         if service in self.services:
             response = self.get_num(self.country, service)
             result = response['response']
-            print(response)
             if result == '1':
                 self.tz_id = response['tzid']
                 return True
         return False
 
     def get_number_from_transaction(self) -> str:
+        """
+        Method for extracting number from API for current transaction (self.tz_id).
+
+        If API will return `WARNING_NO_NUMS`, an exception will be thrown
+
+        :return: number – string with current number
+        """
         number = None
         while not number:
             response = self.get_state(self.tz_id)
@@ -41,6 +53,10 @@ class SmsReg(SmsRegClient):
         return number
 
     def get_code_from_transaction(self) -> str:
+        """
+        Method for extracting sms-code from API for current transaction (self.tz_id).
+        :return: code - string with current code
+        """
         code = None
         while not code:
             response = self.get_state(self.tz_id)
@@ -51,6 +67,11 @@ class SmsReg(SmsRegClient):
         return code
 
     def set_transaction_ready(self):
+        """
+        Method for setting current transaction status to `ready`.
+        You should call it after entering phone number in registration form.
+        :return:
+        """
         response = self.set_ready(self.tz_id)
         status = response['response']
         if status == 1:
@@ -58,6 +79,11 @@ class SmsReg(SmsRegClient):
         return False
 
     def set_transaction_ok(self) -> bool:
+        """
+        Method for setting current transaction to `OK` status.
+        You should call it after you enter registration code and it will be valid.
+        :return: bool – True if API-response is OK, else False
+        """
         response = self.set_operation('ok')
         status = response['response']
         if status == 1:
@@ -65,6 +91,11 @@ class SmsReg(SmsRegClient):
         return False
 
     def set_transaction_used(self) -> bool:
+        """
+        Method for setting current transaction to `USED` status.
+        You should call it after you enter phone and it has already been used in service.
+        :return: bool – True if API-response is OK, else False
+        """
         response = self.set_operation('used')
         status = response['response']
         if status == 1:
@@ -72,6 +103,11 @@ class SmsReg(SmsRegClient):
         return False
 
     def _check_balance(self) -> bool:
+        """
+        Method that calls after initialization to check current account balance.
+        Balance should be > MINIMAL_BALANCE from config file.
+        :return: True if balance is OK, else raises Exception
+        """
         response = self.get_balance()
         balance = float(response['balance'])
         logging.info(f'Current balance: {balance} RUB')
@@ -80,6 +116,11 @@ class SmsReg(SmsRegClient):
         return True
 
     def _get_services_list(self) -> NoReturn:
+        """
+        Method that calls after initialization to get current services list from API.
+        This list uses in `request_number` method for checking.
+        :return:
+        """
         response = self.get_list()
         services_dict = response['services']
         services_list = [s['service'] for s in services_dict]
