@@ -16,7 +16,9 @@ class SmsReg(SmsRegClient):
         self._check_balance()
         self._get_services_list()
 
+        # temporary storage
         self.tz_id = None
+        self.virtual_number = None
 
     def request_number(self, service) -> bool:
         """
@@ -102,6 +104,21 @@ class SmsReg(SmsRegClient):
             return True
         return False
 
+    def request_virtualsim_number(self, period: str = '3hours') -> bool:
+        response = self.vsim_get(self.country, period)
+        status = int(response['response'])
+        if status == 1:
+            self.virtual_number = response['number']
+            return True
+        return False
+
+    def virtualsim_get_sms_list(self) -> list:
+        response = self.vsim_get_sms(self.virtual_number)
+        status = int(response['response'])
+        if status == 1:
+            return response['items']
+        return []
+
     def _check_balance(self) -> bool:
         """
         Method that calls after initialization to check current account balance.
@@ -129,6 +146,9 @@ class SmsReg(SmsRegClient):
 
 
 class ServiceConstants:
+    """
+    Constants class
+    """
     AOL = 'aol'
     GMAIL = 'gmail'
     FACEBOOK = 'facebook'

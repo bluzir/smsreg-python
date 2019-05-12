@@ -18,6 +18,7 @@ class SmsRegClient(Client):
             'apikey': self.api_key
         }
 
+    # Activation methods
     def get_num(self, country: str, service: str) -> dict:
         """
         Method for requesting number for specific country and service.
@@ -124,7 +125,7 @@ class SmsRegClient(Client):
         :param tzid: int/str: transaction id
         :param otype: str: new status (ok/used)
 
-        :return:
+        :return: dict: json from API-response
         """
 
         if otype == 'ok':
@@ -142,6 +143,45 @@ class SmsRegClient(Client):
         response = self._get_api(method, params)
         return response
 
+    # VirtualSIM methods
+    def vsim_get(self, country, period):
+        """
+        Method for requesting VirtualSIM number
+
+        Documentation: https://sms-reg.com/docs/APImethods.html?vsimGet
+        :param country: str: country name (ru, ua, gb, bg, pl, hk)
+        :param period: str: period of rent (3hours, day, week)
+
+        :return: dict: json from API-response
+        """
+        params = {
+            'country': country,
+            'period': period,
+            **self.params
+        }
+
+        response = self._get_api('vsimGet', params)
+        return response
+
+    def vsim_get_sms(self, number: int):
+        """
+        Method for getting sms from VirtualSIM number that you renting
+
+        Documentation: https://sms-reg.com/docs/APImethods.html?vsimGetSMS
+
+        :param number: int/str: number that you renting
+
+        :return: dict: json from API-response
+        """
+        params = {
+            'number': number,
+            **self.params
+        }
+
+        response = self._get_api('vsimGetSMS', params)
+        return response
+
+    # Base methods
     def _get_api(self, method: str, params: dict) -> dict:
         """
         Base method to send GET-request to API
