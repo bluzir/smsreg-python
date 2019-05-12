@@ -1,25 +1,27 @@
-import logging
-
 from smsreg_python.smsreg import SmsReg
-from smsreg_python.smsreg import ServiceConstants as Const
+from smsreg_python.dataclasses import Services
 
 
 def main():
-    sms_client.request_number(Const.TELEGRAM)
-    number = sms_client.get_number_from_transaction()
+    service = Services.TELEGRAM
+    print(f'Requesting number for {service}')
+    sms_client.request_number(Services.TELEGRAM)
+
+    print(f'Waiting for number')
+    number = sms_client.wait_number_from_transaction()
     print(f'Your number is: {number}')
+
     input('Enter anything after entering number to telegram')
-    sms_client.set_transaction_ready()
     print('Waiting for sms...')
-    code = sms_client.get_code_from_transaction()
+    code = sms_client.wait_code_from_transaction()
     result = input(f'Code is {code}. Is it valid? (y/n)')
     if result == 'y':
         sms_client.set_transaction_ok()
     if result == 'n':
-        sms_client.set_transaction_used()
+        # sms_client.set_transaction_used()
+        print('Something gone wrong')
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
     sms_client = SmsReg()
     main()

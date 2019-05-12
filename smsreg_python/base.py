@@ -1,14 +1,16 @@
-from requests import get, post, Response
+from requests import Session, Response
 
 
 class Client:
     @staticmethod
     def get(url, params=None) -> Response:
-        response = get(url, params=params)
+        with Session() as s:
+            response = s.get(url, params=params)
         return response
 
     @staticmethod
     def post(url, data=None, params=None):
-        response = post(url, data=data, params=params)
+        with Session() as s:
+            response = s.post(url, data=data, params=params)
         return response
 

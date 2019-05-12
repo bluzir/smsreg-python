@@ -1,3 +1,3 @@
-API_KEY = ''
+API_KEY = 'wm2u96ypnr94ogj2xvna27p1lifcibq6'
 MINIMAL_BALANCE = 5
-
+SLEEP_TIME = 3
