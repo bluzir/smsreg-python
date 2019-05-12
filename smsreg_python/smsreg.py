@@ -2,9 +2,9 @@ import logging
 from time import sleep
 from typing import NoReturn
 
-from smsreg_py.api import SmsRegClient
+from smsreg_python.api import SmsRegClient
 
-from smsreg_py.config import MINIMAL_BALANCE
+from smsreg_python.config import MINIMAL_BALANCE
 
 
 class SmsReg(SmsRegClient):

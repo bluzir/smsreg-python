@@ -1,8 +1,8 @@
 import logging
 from typing import Union
 
-from smsreg_py.config import API_KEY
-from smsreg_py.base import Client
+from smsreg_python.config import API_KEY
+from smsreg_python.base import Client
 
 
 class SmsRegClient(Client):

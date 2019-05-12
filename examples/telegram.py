@@ -1,7 +1,7 @@
 import logging
 
-from smsreg_py.smsreg import SmsReg
-from smsreg_py.smsreg import ServiceConstants as Const
+from smsreg_python.smsreg import SmsReg
+from smsreg_python.smsreg import ServiceConstants as Const
 
 
 def main():
