@@ -3,6 +3,7 @@ from typing import Union
 
 from smsreg_python.config import API_KEY
 from smsreg_python.base import Client
+from smsreg_python.dataclasses import Misc
 
 
 class SmsRegClient(Client):
@@ -19,7 +20,7 @@ class SmsRegClient(Client):
         }
 
     # Activation methods
-    def get_num(self, country: str, service: str) -> dict:
+    def get_num(self, country: str, service: str, app_id: str) -> dict:
         """
         Method for requesting number for specific country and service.
 
@@ -27,13 +28,18 @@ class SmsRegClient(Client):
 
         :param country: string (all, ru, ua, kz, cn)
         :param service: string (list of services is available in doc)
+        :param app_id: string (if available)
+
         :return: dict: json from API-response
         """
         params = {
             'country': country,
             'service': service,
+            'appid': app_id,
             **self.params
         }
+        params = self._prepare_params(params)
+        logging.debug(params)
         response = self._get_api('getNum', params)
         return response
 
@@ -46,19 +52,6 @@ class SmsRegClient(Client):
         :return: dict: json from API-response
         """
         response = self._get_api('getBalance', self.params)
-        return response
-
-    def set_ready(self, tzid: Union[int, str]) -> dict:
-        """
-        Method for setting transaction to ready state
-        :param tzid: int/str (transaction_id)
-        :return: dict: json from API-response
-        """
-        params = {
-            'tzid': tzid,
-            **self.params,
-        }
-        response = self._get_api('setReady', params=params)
         return response
 
     def get_state(self, tzid: Union[int, str]) -> dict:
@@ -143,6 +136,19 @@ class SmsRegClient(Client):
         response = self._get_api(method, params)
         return response
 
+    def _set_ready(self, tzid: Union[int, str]) -> dict:
+        """
+        Deprecated method for setting transaction to ready state
+        :param tzid: int/str (transaction_id)
+        :return: dict: json from API-response
+        """
+        params = {
+            'tzid': tzid,
+            **self.params,
+        }
+        response = self._get_api('setReady', params=params)
+        return response
+
     # VirtualSIM methods
     def vsim_get(self, country, period):
         """
@@ -180,6 +186,16 @@ class SmsRegClient(Client):
 
         response = self._get_api('vsimGetSMS', params)
         return response
+
+    @staticmethod
+    def _prepare_params(params):
+        if 'appid' in params:
+            if not params['appid']:
+                params = {
+                    **params,
+                    **Misc.BASE_PARAMS
+                }
+        return params
 
     # Base methods
     def _get_api(self, method: str, params: dict) -> dict:
