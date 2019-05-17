@@ -11,8 +11,8 @@ from smsreg_python.dataclasses import TransactionStates
 class SmsReg(SmsRegClient):
     country = 'ru'  # all, ru, ua, kz, cn
 
-    def __init__(self):
-        super(SmsReg, self).__init__()
+    def __init__(self, api_key=None):
+        super(SmsReg, self).__init__(api_key=api_key)
         self.services = {}
         self._check_balance()
         self._get_services_list()
@@ -171,4 +171,3 @@ class SmsReg(SmsRegClient):
 class OperationExpiredException(Exception):
     def __init__(self):
         super(OperationExpiredException, self).__init__()
-

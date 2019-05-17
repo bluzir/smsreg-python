@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="smsreg-python",
-    version="1.1.0",
+    version="1.1.1",
     author="Vladislav Kooklev",
     author_email="kouklevv@gmail.com",
     description="Python client for sms-reg.com API",
