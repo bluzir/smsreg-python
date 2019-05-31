@@ -16,8 +16,9 @@ Python client for receiving SMS from sms-reg.com.
 from smsreg_python.smsreg import SmsReg
 from smsreg_python.dataclasses import Services
 
+API_KEY = "there must be api key"
 # Creating SMS-client instance
-sms_client = SmsReg()
+sms_client = SmsReg(API_KEY)
 
 # Requesting number
 sms_client.request_number(Services.INSTAGRAM)
